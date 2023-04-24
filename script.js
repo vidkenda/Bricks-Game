@@ -11,7 +11,7 @@ var paddleX = (canvas.width-paddleWidth)/2;
 var rightPressed = false;
 var leftPressed = false;
 var brickRowCount = 5;
-var brickColumnCount = 3;
+var brickColumnCount = 5;
 var brickWidth = 75;
 var brickHeight = 20;
 var brickPadding = 10;
@@ -65,7 +65,7 @@ function collisionDetection() {
           b.status = 0;
           score++;
           if(score == brickRowCount*brickColumnCount) {
-            alert("ZMAGALI STE, BRAVO!");
+            alert("YOU WIN, CONGRATS!");
             document.location.reload();
             clearInterval(interval);
           }
@@ -107,8 +107,8 @@ function drawBricks() {
   }
 }
 function drawScore() {
-  ctx.font = "16px Verdana ";
-  ctx.fillStyle = "#rgb(83, 226, 102)";
+  ctx.font = "16px Arial";
+  ctx.fillStyle = "black";
   ctx.fillText("Score: "+score, 8, 20);
 }
 
@@ -119,8 +119,6 @@ function draw() {
   drawPaddle();
   drawScore();
   collisionDetection();
-
-  
 
   if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
     dx = -dx;
@@ -133,9 +131,9 @@ function draw() {
       dy = -dy;
     }
     else {
-      alert("KONEC IGRE");
+      alert("GAME OVER");
       document.location.reload();
-      clearInterval(interval);
+      clearInterval(interval); // Needed for Chrome to end game
     }
   }
 
