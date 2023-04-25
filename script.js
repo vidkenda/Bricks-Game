@@ -66,7 +66,7 @@ function collisionDetection() {
           b.status = 0;
           score++;
           if(score == brickRowCount*brickColumnCount) {
-            alert("YOU WIN, CONGRATS!");
+            alert("Zmagali Ste!");
             document.location.reload();
             clearInterval(interval);
           }
@@ -141,7 +141,7 @@ function draw() {
     else {
       lives--;
       if(!lives) {
-        alert("GAME OVER");
+        alert("Konec Igre");
         document.location.reload();
       }
       else {
