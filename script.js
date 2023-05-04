@@ -17,22 +17,22 @@ var brickHeight = 20;
 var brickPadding = 10;
 var brickOffsetTop = 30;
 var brickOffsetLeft = 30;
-var score = 0;
-var lives = 3;
+var tocke = 0;
+var zivljenja = 3;
 
-var bricks = [];
+var kocke = [];
 for(var c=0; c<brickColumnCount; c++) {
-  bricks[c] = [];
+  kocke[c] = [];
   for(var r=0; r<brickRowCount; r++) {
-    bricks[c][r] = { x: 0, y: 0, status: 1 };
+    kocke[c][r] = { x: 0, y: 0, status: 1 };
   }
 }
 
-document.addEventListener("keydown", keyDownHandler, false);
-document.addEventListener("keyup", keyUpHandler, false);
-document.addEventListener("mousemove", mouseMoveHandler, false);
+document.addEventListener("keydown", keyDown, false);
+document.addEventListener("keyup", keyUp, false);
+document.addEventListener("mousemove", premikMiske, false);
 
-function keyDownHandler(e) {
+function keyDown(e) {
     if(e.key == "Right" || e.key == "ArrowRight") {
         rightPressed = true;
     }
@@ -41,7 +41,7 @@ function keyDownHandler(e) {
     }
 }
 
-function keyUpHandler(e) {
+function keyUp(e) {
     if(e.key == "Right" || e.key == "ArrowRight") {
         rightPressed = false;
     }
@@ -50,22 +50,22 @@ function keyUpHandler(e) {
     }
 }
 
-function mouseMoveHandler(e) {
+function premikMiske(e) {
   var relativeX = e.clientX - canvas.offsetLeft;
   if(relativeX > 0 && relativeX < canvas.width) {
     paddleX = relativeX - paddleWidth/2;
   }
 }
-function collisionDetection() {
+function odboj() {
   for(var c=0; c<brickColumnCount; c++) {
     for(var r=0; r<brickRowCount; r++) {
-      var b = bricks[c][r];
+      var b = kocke[c][r];
       if(b.status == 1) {
         if(x > b.x && x < b.x+brickWidth && y > b.y && y < b.y+brickHeight) {
           dy = -dy;
           b.status = 0;
-          score++;
-          if(score == brickRowCount*brickColumnCount) {
+          tocke++;
+          if(tocke == brickRowCount*brickColumnCount) {
             alert("Zmagali Ste!");
             document.location.reload();
             clearInterval(interval);
@@ -76,28 +76,28 @@ function collisionDetection() {
   }
 }
 
-function drawBall() {
+function zogica() {
   ctx.beginPath();
   ctx.arc(x, y, ballRadius, 0, Math.PI*2);
   ctx.fillStyle = "rgb(83, 226, 102)";
   ctx.fill();
   ctx.closePath();
 }
-function drawPaddle() {
+function palica() {
   ctx.beginPath();
   ctx.rect(paddleX, canvas.height-paddleHeight, paddleWidth, paddleHeight);
   ctx.fillStyle = "black";
   ctx.fill();
   ctx.closePath();
 }
-function drawBricks() {
+function kockice() {
   for(var c=0; c<brickColumnCount; c++) {
     for(var r=0; r<brickRowCount; r++) {
-      if(bricks[c][r].status == 1) {
+      if(kocke[c][r].status == 1) {
         var brickX = (r*(brickWidth+brickPadding))+brickOffsetLeft;
         var brickY = (c*(brickHeight+brickPadding))+brickOffsetTop;
-        bricks[c][r].x = brickX;
-        bricks[c][r].y = brickY;
+        kocke[c][r].x = brickX;
+        kocke[c][r].y = brickY;
         ctx.beginPath();
         ctx.rect(brickX, brickY, brickWidth, brickHeight);
         ctx.fillStyle = "rgb(83, 226, 102)";
@@ -107,26 +107,26 @@ function drawBricks() {
     }
   }
 }
-function drawScore() {
+function tocke1() {
   ctx.font = "16px Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif";
   ctx.fillStyle = "black";
-  ctx.fillText("Score: "+score, 8, 20);
+  ctx.fillText("Score: "+tocke, 8, 20);
 }
 
-function drawLives() {
+function zivljenja1() {
   ctx.font = "16px Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif";
   ctx.fillStyle = "black";
-  ctx.fillText("Lives: "+lives, canvas.width-65, 20);
+  ctx.fillText("Lives: "+zivljenja, canvas.width-65, 20);
 }
 
 function draw() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  drawBricks();
-  drawBall();
-  drawPaddle();
-  drawScore();
-  drawLives();
-  collisionDetection();
+  kockice();
+  zogica();
+  palica();
+  tocke1();
+  zivljenja1();
+  odboj();
 
   if(x + dx > canvas.width-ballRadius || x + dx < ballRadius) {
     dx = -dx;
@@ -139,8 +139,8 @@ function draw() {
       dy = -dy;
     }
     else {
-      lives--;
-      if(!lives) {
+      zivljenja--;
+      if(!zivljenja) {
         alert("Konec Igre");
         document.location.reload();
       }
